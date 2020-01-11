@@ -39,6 +39,9 @@ using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
+using System.Xml.Linq;
+using System.Globalization;
+using System;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
@@ -85,7 +88,6 @@ class Build : NukeBuild
             RootDirectory.GlobFiles(coverageFiles).ForEach(DeleteFile);
 
             EnsureCleanDirectory(OutputDirectory);
-            DotNetClean();
         });
 
     Target Version => _ => _
@@ -150,13 +152,27 @@ class Build : NukeBuild
 
                 var reportFiles = RootDirectory / coverageFiles;
 
-                ReportGenerator(_ => _
-                    .SetToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.exe", null, "netcoreapp3.0"))
-                    .SetReports(reportFiles)
-                    .SetTargetDirectory(OutputDirectory / "coverage")
-                    .SetReportTypes(ReportTypes.TextSummary, ReportTypes.Html));
+                if (EnvironmentInfo.IsWin)
+                {
+                    ReportGenerator(_ => _
+                        .SetToolPath(ToolPathResolver.GetPackageExecutable("ReportGenerator", "ReportGenerator.exe", null, "netcoreapp3.0"))
+                        .SetReports(reportFiles)
+                        .SetTargetDirectory(OutputDirectory / "coverage")
+                        .SetReportTypes(ReportTypes.TextSummary, ReportTypes.Html));
 
-                Logger.Info(File.ReadAllText(OutputDirectory / "coverage" / "Summary.txt"));
+                    Logger.Info(File.ReadAllText(OutputDirectory / "coverage" / "Summary.txt"));
+                }
+                else
+                {
+                    var coverageFile = RootDirectory.GlobFiles(coverageFiles).FirstOrDefault();
+
+                    XDocument xdoc = XDocument.Load(coverageFile);
+                    double lineCoverage = Math.Round(double.Parse(xdoc.Descendants("coverage").FirstOrDefault().Attribute("line-rate").Value, CultureInfo.GetCultureInfo("en-US")) * 100, 2);
+
+                    Logger.Info("Summary");
+                    Logger.Info($"  Line coverage: {lineCoverage.ToString(CultureInfo.GetCultureInfo("en-US"))}%");
+                    Logger.Info("End Summary");
+                }
             }
         });
 

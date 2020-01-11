@@ -1,4 +1,4 @@
-![Mjolnir](https://gitlab.com/tobiaskoch/Mjolnir/raw/master/img/Mjolnir.png)
+![Mjolnir](https://gitlab.com/tobiaskoch/Mjolnir.Build/raw/master/img/Mjolnir.png)
 
 # ᛗᛁᚮᛚᚾᛁᚱ
 

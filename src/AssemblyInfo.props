@@ -1,0 +1,18 @@
+<Project>
+
+  <PropertyGroup>
+    <Authors>Tobias Koch</Authors>
+    <Company>Tobias Koch</Company>
+    <Product>Mjolnir</Product>
+    <Description>Common library for .NET based build systems</Description>
+    <Copyright>Copyright © 2017-2020 Tobias Koch</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://gitlab.com/tobiaskoch/Mjolnir.Build</PackageProjectUrl>
+    <RepositoryUrl>https://gitlab.com/tobiaskoch/Mjolnir.Build.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageIcon>Mjolnir.png</PackageIcon>
+    <PackageTags>framework library core</PackageTags>
+  </PropertyGroup>
+  
+</Project>

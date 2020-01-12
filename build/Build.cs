@@ -164,13 +164,20 @@ class Build : NukeBuild
                 }
                 else
                 {
-                    var coverageFile = RootDirectory.GlobFiles(coverageFiles).FirstOrDefault();
+                    var coverageFileNames = RootDirectory.GlobFiles(coverageFiles);
 
-                    XDocument xdoc = XDocument.Load(coverageFile);
-                    double lineCoverage = Math.Round(double.Parse(xdoc.Descendants("coverage").FirstOrDefault().Attribute("line-rate").Value, CultureInfo.GetCultureInfo("en-US")) * 100, 2);
+                    double overallLineCoverage = 0;
+
+                    foreach (var coverageFileName in coverageFileNames)
+                    {
+                        XDocument xdoc = XDocument.Load(coverageFileName);
+                        double lineCoverage = double.Parse(xdoc.Descendants("coverage").FirstOrDefault().Attribute("line-rate").Value, CultureInfo.GetCultureInfo("en-US"));
+
+                        overallLineCoverage += lineCoverage;
+                    }
 
                     Logger.Info("Summary");
-                    Logger.Info($"  Line coverage: {lineCoverage.ToString(CultureInfo.GetCultureInfo("en-US"))}%");
+                    Logger.Info($"  Line coverage: {Math.Round(overallLineCoverage * 100, 2).ToString(CultureInfo.GetCultureInfo("en-US"))}%");
                     Logger.Info("End Summary");
                 }
             }

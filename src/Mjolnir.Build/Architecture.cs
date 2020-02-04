@@ -28,20 +28,32 @@ using System.ComponentModel;
 namespace Mjolnir.Build
 {
     /// <summary>
-    /// Specifies enumerated constants representing different operating systems.
+    /// Specifies enumerated constants representing different processor architectures.
     /// </summary>
-    public enum OperatingSystem
+    public enum Architecture
     {
         /// <summary>
-        /// An unspecified Linux version.
+        /// Any architecture.
         /// </summary>
-        [Description("linux")]
-        Linux = 0,
+        [Description("any")]
+        AnyCpu = 0,
 
         /// <summary>
-        /// An unspecified Microsoft version.
+        /// The x86 architecture (x86, i386).
         /// </summary>
-        [Description("windows")]
-        Windows = 1,
+        [Description("i386")]
+        X86 = 1,
+
+        /// <summary>
+        /// The x64 architecture (x64, amd64, x86_64).
+        /// </summary>
+        [Description("amd64")]
+        X64 = 2,
+
+        /// <summary>
+        /// The ia64 architecture (ia64).
+        /// </summary>
+        [Description("ia64")]
+        IA64 = 3,
     }
 }

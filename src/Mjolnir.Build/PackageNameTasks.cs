@@ -32,5 +32,28 @@ namespace Mjolnir.Build
     /// </summary>
     public static class PackageNameTasks
     {
+        /// <summary>
+        /// Generates the filename of a binary package.
+        /// </summary>
+        /// <param name="projectName">The name of the application.</param>
+        /// <param name="version">The version of the application.</param>
+        /// <param name="os">The target operating system.</param>
+        /// <param name="arch">The target processor architecture.</param>
+        /// <returns>A recommended filename for a binary package.</returns>
+        public static string GenerateBinaryPackageName(string projectName, string version, OperatingSystem os, Architecture arch)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Generates the filename of a source package.
+        /// </summary>
+        /// <param name="projectName">The name of the application.</param>
+        /// <param name="version">The version of the application.</param>
+        /// <returns>A recommended filename for a source package.</returns>
+        public static string GenerateSourcePackageName(string projectName, string version)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

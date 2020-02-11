@@ -39,7 +39,7 @@ namespace Mjolnir.Build.VCS
         /// <summary>
         /// Gets the text used to describe a development version that is not tagged yet.
         /// </summary>
-        public static string DevMarker => "dev";
+        public static string DevMarker => "dev.";
 
         /// <summary>
         /// Generates version information based on the latest matching annotated git tag and the current repository state.

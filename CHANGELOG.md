@@ -1,10 +1,15 @@
+## [Unreleased] / YYYY-MM-DD
+- Adding GenerateBinaryPackageName method
+- Adding GenerateSourcePackageName method
+- Adding GeneratePackageName method
+
 ## [0.5.0] / 2020-01-08
-- Mjonlir, Mjolnir.Forms, Mjolnir.Windows, Mjolnir.Build: assemblies signed with strong name key
+- Adding strong name key
 
 ## [0.4.0] / 2020-01-05
-- Switched to snupkg package format
-- ReplaceInFile method added
-- GetGitTagVersion method added
+- Changing package format to snupkg
+- Adding ReplaceInFile method
+- Adding GetGitTagVersion method
 
 ## [0.3.1] / 2020-01-03
 - Fixing build script

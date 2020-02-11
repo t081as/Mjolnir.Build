@@ -63,6 +63,7 @@ namespace Mjolnir.Build.Tests
         public void GenerateBinaryPackageNameTest()
         {
             Assert.AreEqual("My_Project-1.3.6-windows-amd64", PackageNameTasks.GenerateBinaryPackageName("My Project", "1.3.6", OperatingSystem.Windows, Architecture.X64));
+            Assert.AreEqual("MyProject-5.12.0-linux-i386", PackageNameTasks.GenerateBinaryPackageName("MyProject", "5.12.0", OperatingSystem.Linux, Architecture.X86));
         }
 
         /// <summary>

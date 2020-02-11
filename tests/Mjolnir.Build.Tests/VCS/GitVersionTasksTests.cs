@@ -38,6 +38,40 @@ namespace Mjolnir.Build.Tests.VCS
     public class GitVersionTasksTests
     {
         /// <summary>
+        /// Checks the <see cref="GitVersionTasks.GetGitTagVersion(string, ulong)"/> method.
+        /// </summary>
+        [TestMethod]
+        public void GetGitVersionTest()
+        {
+            try
+            {
+                string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
+
+                while (!File.Exists(Path.Combine(path, "global.json")))
+                {
+                    path = Path.GetFullPath(Path.Combine(path, ".."));
+                }
+
+                (string shortVersion, string longVersion, string semanticVersion) = GitVersionTasks.GetGitTagVersion(path, 987);
+
+                Assert.IsFalse(string.IsNullOrWhiteSpace(shortVersion));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(longVersion));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(semanticVersion));
+
+                StringAssert.Contains(longVersion, "987");
+                StringAssert.Contains(semanticVersion, "+");
+
+                StringAssert.Contains(shortVersion, ".");
+                StringAssert.Contains(longVersion, ".");
+                StringAssert.Contains(semanticVersion, ".");
+            }
+            catch (Exception ex) when (ex.GetType().FullName == "LibGit2Sharp.RepositoryNotFoundException")
+            {
+                Assert.Inconclusive();
+            }
+        }
+
+        /// <summary>
         /// Checks the <see cref="GitVersionTasks.GetGitTagVersionComponents(string)"/> method.
         /// </summary>
         /// <remarks>

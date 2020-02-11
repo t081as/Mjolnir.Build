@@ -57,6 +57,15 @@ namespace Mjolnir.Build.Tests
         }
 
         /// <summary>
+        /// Checks the <see cref="PackageNameTasks.GenerateBinaryPackageName(string, string, OperatingSystem, Architecture)"/> method.
+        /// </summary>
+        [TestMethod]
+        public void GenerateBinaryPackageNameTest()
+        {
+            Assert.AreEqual("My_Project-1.3.6-windows-amd64", PackageNameTasks.GenerateBinaryPackageName("My Project", "1.3.6", OperatingSystem.Windows, Architecture.X64));
+        }
+
+        /// <summary>
         /// Checks the <see cref="PackageNameTasks.GenerateSourcePackageName(string, string)"/>
         /// method with empty references (<c>null</c>).
         /// </summary>
@@ -76,6 +85,15 @@ namespace Mjolnir.Build.Tests
         {
             Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateSourcePackageName("Te:st", "1.0"));
             Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateSourcePackageName("Test", "1:0"));
+        }
+
+        /// <summary>
+        /// Checks the <see cref="PackageNameTasks.GenerateSourcePackageName(string, string)"/> method.
+        /// </summary>
+        [TestMethod]
+        public void GenerateSourcePackageNameTest()
+        {
+            Assert.AreEqual("MyProject-1.3.6-src", PackageNameTasks.GenerateSourcePackageName("MyProject", "1.3.6"));
         }
 
         /// <summary>
@@ -100,6 +118,15 @@ namespace Mjolnir.Build.Tests
             Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Te\\st", "1.0", "src"));
             Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Test", "1:0", "src"));
             Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Test", "1.0", "sr?"));
+        }
+
+        /// <summary>
+        /// Checks the <see cref="PackageNameTasks.GeneratePackageName(string, string, string)"/> method.
+        /// </summary>
+        [TestMethod]
+        public void GeneratePackageNameTest()
+        {
+            Assert.AreEqual("my_project-1.3.6-doc", PackageNameTasks.GeneratePackageName("my project", "1.3.6", "doc"));
         }
     }
 }

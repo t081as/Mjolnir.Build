@@ -39,52 +39,14 @@ namespace Mjolnir.Build
         /// </summary>
         /// <param name="projectName">The name of the application.</param>
         /// <param name="version">The version of the application.</param>
-        /// <param name="os">The target operating system.</param>
-        /// <param name="arch">The target processor architecture.</param>
+        /// <param name="operatingSystem">The target operating system.</param>
+        /// <param name="architecture">The target processor architecture.</param>
         /// <returns>A recommended filename for a binary package.</returns>
         /// <exception cref="ArgumentNullException"><c>projectName</c> is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException"><c>version</c> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><c>projectName</c> contains an illegal character.</exception>
         /// <exception cref="ArgumentException"><c>version</c> contains an illegal character.</exception>
-        public static string GenerateBinaryPackageName(string projectName, string version, OperatingSystem os, Architecture arch)
-        {
-            if (projectName == null)
-            {
-                throw new ArgumentNullException(nameof(projectName));
-            }
-
-            if (version == null)
-            {
-                throw new ArgumentNullException(nameof(version));
-            }
-
-            foreach (char illegalChar in Path.GetInvalidFileNameChars().Union(Path.GetInvalidPathChars()))
-            {
-                if (projectName.Contains(illegalChar))
-                {
-                    throw new ArgumentException($"Argument contains illegal character '{illegalChar}'", nameof(projectName));
-                }
-
-                if (version.Contains(illegalChar))
-                {
-                    throw new ArgumentException($"Argument contains illegal character '{illegalChar}'", nameof(version));
-                }
-            }
-
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Generates the filename of a source package.
-        /// </summary>
-        /// <param name="projectName">The name of the application.</param>
-        /// <param name="version">The version of the application.</param>
-        /// <returns>A recommended filename for a source package.</returns>
-        /// <exception cref="ArgumentNullException"><c>projectName</c> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentNullException"><c>version</c> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException"><c>projectName</c> contains an illegal character.</exception>
-        /// <exception cref="ArgumentException"><c>version</c> contains an illegal character.</exception>
-        public static string GenerateSourcePackageName(string projectName, string version)
+        public static string GenerateBinaryPackageName(string projectName, string version, OperatingSystem operatingSystem, Architecture architecture)
         {
             if (projectName == null)
             {
@@ -111,7 +73,63 @@ namespace Mjolnir.Build
 
             projectName = projectName.Replace(' ', '_');
 
-            return $"{projectName}-{version}";
+            return $"{projectName}-{version}-{operatingSystem.AsString()}-{architecture.AsString()}";
+        }
+
+        /// <summary>
+        /// Generates the filename of a source package.
+        /// </summary>
+        /// <param name="projectName">The name of the application.</param>
+        /// <param name="version">The version of the application.</param>
+        /// <returns>A recommended filename for a source package.</returns>
+        /// <exception cref="ArgumentNullException"><c>projectName</c> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><c>version</c> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><c>projectName</c> contains an illegal character.</exception>
+        /// <exception cref="ArgumentException"><c>version</c> contains an illegal character.</exception>
+        public static string GenerateSourcePackageName(string projectName, string version)
+        {
+            return GeneratePackageName(projectName, version, "src");
+        }
+
+        /// <summary>
+        /// Generates the filename of a package with the given <paramref name="suffix"/>.
+        /// </summary>
+        /// <param name="projectName">The name of the application.</param>
+        /// <param name="version">The version of the application.</param>
+        /// <param name="suffix">The desired suffix of the package name.</param>
+        /// <returns>A recommended filename for a source package.</returns>
+        /// <exception cref="ArgumentNullException"><c>projectName</c> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><c>version</c> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException"><c>projectName</c> contains an illegal character.</exception>
+        /// <exception cref="ArgumentException"><c>version</c> contains an illegal character.</exception>
+        public static string GeneratePackageName(string projectName, string version, string suffix)
+        {
+            if (projectName == null)
+            {
+                throw new ArgumentNullException(nameof(projectName));
+            }
+
+            if (version == null)
+            {
+                throw new ArgumentNullException(nameof(version));
+            }
+
+            foreach (char illegalChar in Path.GetInvalidFileNameChars().Union(Path.GetInvalidPathChars()))
+            {
+                if (projectName.Contains(illegalChar))
+                {
+                    throw new ArgumentException($"Argument contains illegal character '{illegalChar}'", nameof(projectName));
+                }
+
+                if (version.Contains(illegalChar))
+                {
+                    throw new ArgumentException($"Argument contains illegal character '{illegalChar}'", nameof(version));
+                }
+            }
+
+            projectName = projectName.Replace(' ', '_');
+
+            return $"{projectName}-{version}-{suffix}";
         }
     }
 }

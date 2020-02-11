@@ -100,8 +100,10 @@ namespace Mjolnir.Build
         /// <returns>A recommended filename for a source package.</returns>
         /// <exception cref="ArgumentNullException"><c>projectName</c> is <c>null</c>.</exception>
         /// <exception cref="ArgumentNullException"><c>version</c> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentNullException"><c>suffix</c> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException"><c>projectName</c> contains an illegal character.</exception>
         /// <exception cref="ArgumentException"><c>version</c> contains an illegal character.</exception>
+        /// <exception cref="ArgumentException"><c>suffix</c> contains an illegal character.</exception>
         public static string GeneratePackageName(string projectName, string version, string suffix)
         {
             if (projectName == null)
@@ -114,6 +116,11 @@ namespace Mjolnir.Build
                 throw new ArgumentNullException(nameof(version));
             }
 
+            if (suffix == null)
+            {
+                throw new ArgumentNullException(nameof(suffix));
+            }
+
             foreach (char illegalChar in Path.GetInvalidFileNameChars().Union(Path.GetInvalidPathChars()))
             {
                 if (projectName.Contains(illegalChar))
@@ -122,6 +129,11 @@ namespace Mjolnir.Build
                 }
 
                 if (version.Contains(illegalChar))
+                {
+                    throw new ArgumentException($"Argument contains illegal character '{illegalChar}'", nameof(version));
+                }
+
+                if (suffix.Contains(illegalChar))
                 {
                     throw new ArgumentException($"Argument contains illegal character '{illegalChar}'", nameof(version));
                 }

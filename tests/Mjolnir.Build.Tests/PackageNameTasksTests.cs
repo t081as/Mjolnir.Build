@@ -34,5 +34,38 @@ namespace Mjolnir.Build.Tests
     [TestClass]
     public class PackageNameTasksTests
     {
+        /// <summary>
+        /// Checks the <see cref="PackageNameTasks.GenerateBinaryPackageName(string, string, OperatingSystem, Architecture)"/>
+        /// method with empty references (<c>null</c>).
+        /// </summary>
+        [TestMethod]
+        public void GenerateBinaryPackageNameNullTest()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GenerateBinaryPackageName(null!, "1.0", OperatingSystem.Windows, Architecture.AnyCpu));
+            Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GenerateBinaryPackageName("Test", null!, OperatingSystem.Windows, Architecture.AnyCpu));
+        }
+
+        /// <summary>
+        /// Checks the <see cref="PackageNameTasks.GenerateSourcePackageName(string, string)"/>
+        /// method with empty references (<c>null</c>).
+        /// </summary>
+        [TestMethod]
+        public void GenerateSourcePackageNameNullTest()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GenerateSourcePackageName(null!, "1.0"));
+            Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GenerateSourcePackageName("Test", null!));
+        }
+
+        /// <summary>
+        /// Checks the <see cref="PackageNameTasks.GeneratePackageName(string, string, string)"/>
+        /// method with empty references (<c>null</c>).
+        /// </summary>
+        [TestMethod]
+        public void GeneratePackageNameNullTest()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GeneratePackageName(null!, "1.0", "src"));
+            Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GeneratePackageName("Test", null!, "src"));
+            Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GeneratePackageName("Test", "1.0", null!));
+        }
     }
 }

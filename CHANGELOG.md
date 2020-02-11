@@ -1,4 +1,4 @@
-## [Unreleased] / YYYY-MM-DD
+## [0.6.0] / 2020-02-11
 - Adding GenerateBinaryPackageName method
 - Adding GenerateSourcePackageName method
 - Adding GeneratePackageName method

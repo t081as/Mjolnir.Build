@@ -24,6 +24,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.IO;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Mjolnir.Build.Tests
@@ -52,8 +54,10 @@ namespace Mjolnir.Build.Tests
         [TestMethod]
         public void GenerateBinaryPackageNameInvalidTest()
         {
-            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateBinaryPackageName("Te\\st", "1.0", OperatingSystem.Windows, Architecture.AnyCpu));
-            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateBinaryPackageName("Test", "1:0", OperatingSystem.Windows, Architecture.AnyCpu));
+            char invalid = Path.GetInvalidFileNameChars().First();
+
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateBinaryPackageName($"Te{invalid}st", "1.0", OperatingSystem.Windows, Architecture.AnyCpu));
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateBinaryPackageName("Test", $"1{invalid}0", OperatingSystem.Windows, Architecture.AnyCpu));
         }
 
         /// <summary>
@@ -84,8 +88,10 @@ namespace Mjolnir.Build.Tests
         [TestMethod]
         public void GenerateSourcePackageNameInvalidTest()
         {
-            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateSourcePackageName("Te:st", "1.0"));
-            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateSourcePackageName("Test", "1:0"));
+            char invalid = Path.GetInvalidFileNameChars().First();
+
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateSourcePackageName($"Te{invalid}st", "1.0"));
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateSourcePackageName("Test", $"1{invalid}0"));
         }
 
         /// <summary>
@@ -116,9 +122,11 @@ namespace Mjolnir.Build.Tests
         [TestMethod]
         public void GeneratePackageNameInvalidTest()
         {
-            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Te\\st", "1.0", "src"));
-            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Test", "1:0", "src"));
-            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Test", "1.0", "sr?"));
+            char invalid = Path.GetInvalidFileNameChars().First();
+
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName($"Te{invalid}st", "1.0", "src"));
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Test", $"1{invalid}0", "src"));
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Test", "1.0", $"sr{invalid}"));
         }
 
         /// <summary>

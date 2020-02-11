@@ -46,6 +46,17 @@ namespace Mjolnir.Build.Tests
         }
 
         /// <summary>
+        /// Checks the <see cref="PackageNameTasks.GenerateBinaryPackageName(string, string, OperatingSystem, Architecture)"/>
+        /// method with illegal characters.
+        /// </summary>
+        [TestMethod]
+        public void GenerateBinaryPackageNameInvalidTest()
+        {
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateBinaryPackageName("Te\\st", "1.0", OperatingSystem.Windows, Architecture.AnyCpu));
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateBinaryPackageName("Test", "1:0", OperatingSystem.Windows, Architecture.AnyCpu));
+        }
+
+        /// <summary>
         /// Checks the <see cref="PackageNameTasks.GenerateSourcePackageName(string, string)"/>
         /// method with empty references (<c>null</c>).
         /// </summary>
@@ -54,6 +65,17 @@ namespace Mjolnir.Build.Tests
         {
             Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GenerateSourcePackageName(null!, "1.0"));
             Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GenerateSourcePackageName("Test", null!));
+        }
+
+        /// <summary>
+        /// Checks the <see cref="PackageNameTasks.GenerateSourcePackageName(string, string)"/>
+        /// method with illegal characters.
+        /// </summary>
+        [TestMethod]
+        public void GenerateSourcePackageNameInvalidTest()
+        {
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateSourcePackageName("Te:st", "1.0"));
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GenerateSourcePackageName("Test", "1:0"));
         }
 
         /// <summary>
@@ -66,6 +88,18 @@ namespace Mjolnir.Build.Tests
             Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GeneratePackageName(null!, "1.0", "src"));
             Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GeneratePackageName("Test", null!, "src"));
             Assert.ThrowsException<ArgumentNullException>(() => PackageNameTasks.GeneratePackageName("Test", "1.0", null!));
+        }
+
+        /// <summary>
+        /// Checks the <see cref="PackageNameTasks.GeneratePackageName(string, string, string)"/>
+        /// method with illegal characters.
+        /// </summary>
+        [TestMethod]
+        public void GeneratePackageNameInvalidTest()
+        {
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Te\\st", "1.0", "src"));
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Test", "1:0", "src"));
+            Assert.ThrowsException<ArgumentException>(() => PackageNameTasks.GeneratePackageName("Test", "1.0", "sr?"));
         }
     }
 }

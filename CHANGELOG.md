@@ -2,6 +2,7 @@
 
 ## [Unreleased] - YYYY-MM-DD
 - Changed semantic version development marker
+- Fixing GetGitTagVersionComponents method
 
 ## [0.6.0] - 2020-02-11
 - Added GenerateBinaryPackageName method

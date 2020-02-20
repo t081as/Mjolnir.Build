@@ -78,7 +78,7 @@ namespace Mjolnir.Build.Tests.VCS
         /// This test will be set to <c>inconclusive</c> if this is not a git repository.
         /// </remarks>
         [TestMethod]
-        public void GetGitTagVersionComponents()
+        public void GetGitTagVersionComponentsTest()
         {
             try
             {

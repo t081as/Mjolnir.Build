@@ -98,13 +98,16 @@ namespace Mjolnir.Build.VCS
         /// </returns>
         public static (ulong major, ulong minor, ulong revision, ulong commits, string shasum) GetGitTagVersionComponents(string repositoryPath)
         {
+            Regex tagQuery = new Regex(@"v(?<major>\d+).(?<minor>\d+).(?<revision>\d+)");
+            Regex descriptionQuery = new Regex(@"(?<tag>.*)-(?<commits>\d+)-(?<shasum>.*)");
+
             List<string> tags = new List<string>();
 
             using Repository repository = new Repository(repositoryPath);
 
             foreach (var tag in repository.Tags)
             {
-                if (tag.IsAnnotated && tag.FriendlyName.StartsWith("v", System.StringComparison.InvariantCultureIgnoreCase))
+                if (tag.IsAnnotated && tagQuery.IsMatch(tag.FriendlyName))
                 {
                     tags.Add(tag.FriendlyName);
                 }
@@ -120,9 +123,6 @@ namespace Mjolnir.Build.VCS
 
             string description = repository.Describe(repository.Head.Commits.First(), options);
             string latestTag = tags.Last();
-
-            Regex tagQuery = new Regex(@"v(?<major>\d+).(?<minor>\d+).(?<revision>\d+)");
-            Regex descriptionQuery = new Regex(@"(?<tag>.*)-(?<commits>\d+)-(?<shasum>.*)");
 
             var tagMatch = tagQuery.Match(latestTag);
             var descriptionMatch = descriptionQuery.Match(description);

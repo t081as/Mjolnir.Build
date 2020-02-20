@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased] - YYYY-MM-DD
+## [0.7.0] - 2020-02-20
 - Changed semantic version development marker
 - Fixing GetGitTagVersionComponents method
 

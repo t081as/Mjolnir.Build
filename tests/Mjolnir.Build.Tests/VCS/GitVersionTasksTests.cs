@@ -47,7 +47,7 @@ namespace Mjolnir.Build.Tests.VCS
             {
                 string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
 
-                while (!File.Exists(Path.Combine(path, "global.json")))
+                while (!File.Exists(Path.Combine(path, "README.md")))
                 {
                     path = Path.GetFullPath(Path.Combine(path, ".."));
                 }
@@ -84,7 +84,7 @@ namespace Mjolnir.Build.Tests.VCS
             {
                 string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? string.Empty;
 
-                while (!File.Exists(Path.Combine(path, "global.json")))
+                while (!File.Exists(Path.Combine(path, "README.md")))
                 {
                     path = Path.GetFullPath(Path.Combine(path, ".."));
                 }

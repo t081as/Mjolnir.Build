@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>..\..\Mjolnir.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1701;1702;1705;NU1701</NoWarn>
     <WarningsAsErrors />
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Mjolnir.Build.Tests.xml</DocumentationFile>
@@ -34,10 +33,6 @@
     
   <ItemGroup>
     <ProjectReference Include="..\..\src\Mjolnir.Build\Mjolnir.Build.csproj" />
-  </ItemGroup>
-    
-  <ItemGroup>
-    <None Include="..\..\Mjolnir.ruleset" Link="Mjolnir.ruleset" />
   </ItemGroup>
 
 </Project>

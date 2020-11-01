@@ -98,10 +98,10 @@ namespace Mjolnir.Build.VCS
         /// </returns>
         public static (ulong major, ulong minor, ulong revision, ulong commits, string shasum) GetGitTagVersionComponents(string repositoryPath)
         {
-            Regex tagQuery = new Regex(@"v(?<major>\d+).(?<minor>\d+).(?<revision>\d+)");
-            Regex descriptionQuery = new Regex(@"(?<tag>.*)-(?<commits>\d+)-(?<shasum>.*)");
+            var tagQuery = new Regex(@"v(?<major>\d+).(?<minor>\d+).(?<revision>\d+)");
+            var descriptionQuery = new Regex(@"(?<tag>.*)-(?<commits>\d+)-(?<shasum>.*)");
 
-            List<string> tags = new List<string>();
+            var versions = new List<System.Version>();
 
             using Repository repository = new Repository(repositoryPath);
 
@@ -109,11 +109,17 @@ namespace Mjolnir.Build.VCS
             {
                 if (tag.IsAnnotated && tagQuery.IsMatch(tag.FriendlyName))
                 {
-                    tags.Add(tag.FriendlyName);
+                    var tagMatch = tagQuery.Match(tag.FriendlyName);
+
+                    var major = int.Parse(tagMatch.Groups["major"].Value, CultureInfo.InvariantCulture);
+                    var minor = int.Parse(tagMatch.Groups["minor"].Value, CultureInfo.InvariantCulture);
+                    var revision = int.Parse(tagMatch.Groups["revision"].Value, CultureInfo.InvariantCulture);
+
+                    versions.Add(new System.Version(major, minor, 0, revision));
                 }
             }
 
-            tags.Sort();
+            versions.Sort();
 
             DescribeOptions options = new DescribeOptions
             {
@@ -121,20 +127,15 @@ namespace Mjolnir.Build.VCS
                 Strategy = DescribeStrategy.Default,
             };
 
-            string description = repository.Describe(repository.Head.Commits.First(), options);
-            string latestTag = tags.Last();
-
-            var tagMatch = tagQuery.Match(latestTag);
+            var description = repository.Describe(repository.Head.Commits.First(), options);
             var descriptionMatch = descriptionQuery.Match(description);
 
-            ulong major = ulong.Parse(tagMatch.Groups["major"].Value, CultureInfo.InvariantCulture);
-            ulong minor = ulong.Parse(tagMatch.Groups["minor"].Value, CultureInfo.InvariantCulture);
-            ulong revision = ulong.Parse(tagMatch.Groups["revision"].Value, CultureInfo.InvariantCulture);
+            var commits = ulong.Parse(descriptionMatch.Groups["commits"].Value, CultureInfo.InvariantCulture);
+            var shasum = descriptionMatch.Groups["shasum"].Value;
 
-            ulong commits = ulong.Parse(descriptionMatch.Groups["commits"].Value, CultureInfo.InvariantCulture);
-            string shasum = descriptionMatch.Groups["shasum"].Value;
+            var latestTag = versions.Last();
 
-            return (major, minor, revision, commits, shasum);
+            return ((ulong)latestTag.Major, (ulong)latestTag.Minor, (ulong)latestTag.Revision, commits, shasum);
         }
     }
 }

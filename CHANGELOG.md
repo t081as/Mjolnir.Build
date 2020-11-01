@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- Fixed git tag component of method GetGitTagVersionComponents (#4)
+
 ## [0.7.0] - 2020-02-20
 - Changed semantic version development marker
 - Fixing GetGitTagVersionComponents method

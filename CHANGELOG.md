@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.7.1] - 2020-11-12
 - Fixed git tag component of method GetGitTagVersionComponents (#4)
 
 ## [0.7.0] - 2020-02-20
